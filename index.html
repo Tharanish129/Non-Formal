@@ -1,0 +1,1215 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>KEC Grievance Redressal Tracker</title>
+
+<style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    background: #f4f7fb;
+    color: #222;
+}
+
+/* NAVIGATION */
+nav {
+    background: #123b75;
+    color: white;
+    padding: 15px 5%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+}
+
+.logo {
+    font-size: 22px;
+    font-weight: bold;
+}
+
+nav ul {
+    display: flex;
+    list-style: none;
+    gap: 20px;
+}
+
+nav a {
+    color: white;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+nav a:hover {
+    color: #ffd43b;
+}
+
+/* COMMON */
+section {
+    width: 90%;
+    max-width: 1200px;
+    margin: 30px auto;
+    padding: 30px;
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+}
+
+h2 {
+    color: #123b75;
+    margin-bottom: 20px;
+}
+
+/* HOME */
+.hero {
+    width: 100%;
+    max-width: none;
+    margin: 0;
+    min-height: 450px;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+
+    color: white;
+
+    background: linear-gradient(
+        135deg,
+        #123b75,
+        #2874c6
+    );
+
+    border-radius: 0;
+}
+
+.hero h1 {
+    font-size: 45px;
+    margin-bottom: 20px;
+}
+
+.hero p {
+    font-size: 18px;
+    margin-bottom: 25px;
+}
+
+button {
+    background: #123b75;
+    color: white;
+    border: none;
+    padding: 11px 20px;
+    border-radius: 6px;
+    cursor: pointer;
+}
+
+button:hover {
+    background: #2874c6;
+}
+
+.hero button {
+    background: white;
+    color: #123b75;
+    font-weight: bold;
+}
+
+/* DASHBOARD */
+.dashboard {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px;
+}
+
+.card {
+    padding: 25px;
+    text-align: center;
+    background: #eef4ff;
+    border-radius: 10px;
+    border-left: 5px solid #2874c6;
+}
+
+.card h3 {
+    font-size: 32px;
+    color: #123b75;
+    margin-bottom: 8px;
+}
+
+.card p {
+    color: #555;
+}
+
+/* ALERT */
+.alert {
+    background: #fff3cd;
+    border-left: 5px solid #ff9800;
+    padding: 15px;
+    border-radius: 6px;
+    margin-bottom: 20px;
+}
+
+.alert.danger {
+    background: #f8d7da;
+    border-left-color: #dc3545;
+    color: #721c24;
+}
+
+/* FORM */
+.form-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+}
+
+label {
+    font-weight: bold;
+    display: block;
+    margin-bottom: 7px;
+}
+
+input,
+select,
+textarea {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    margin-bottom: 15px;
+}
+
+textarea {
+    height: 120px;
+    resize: vertical;
+}
+
+.full {
+    grid-column: 1 / -1;
+}
+
+/* TABLE */
+.table-container {
+    overflow-x: auto;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+th {
+    background: #123b75;
+    color: white;
+    padding: 13px;
+}
+
+td {
+    padding: 12px;
+    border-bottom: 1px solid #ddd;
+    text-align: center;
+}
+
+tr:hover {
+    background: #f5f8ff;
+}
+
+.status {
+    padding: 5px 10px;
+    border-radius: 20px;
+    font-size: 13px;
+    font-weight: bold;
+}
+
+.pending {
+    background: #fff3cd;
+    color: #856404;
+}
+
+.resolved {
+    background: #d4edda;
+    color: #155724;
+}
+
+.overdue {
+    background: #f8d7da;
+    color: #721c24;
+}
+
+/* ANALYSIS */
+.analysis {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+}
+
+.analysis-box {
+    padding: 20px;
+    background: #f5f7fa;
+    border-radius: 8px;
+}
+
+.progress {
+    height: 12px;
+    background: #ddd;
+    border-radius: 20px;
+    margin-top: 10px;
+    overflow: hidden;
+}
+
+.progress-bar {
+    height: 100%;
+    background: #2874c6;
+}
+
+/* LOGIN */
+.login-box {
+    max-width: 500px;
+    margin: auto;
+}
+
+/* MODAL */
+.modal {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.6);
+    justify-content: center;
+    align-items: center;
+    z-index: 2000;
+}
+
+.modal-content {
+    background: white;
+    padding: 30px;
+    border-radius: 10px;
+    width: 90%;
+    max-width: 450px;
+}
+
+.close {
+    float: right;
+    font-size: 25px;
+    cursor: pointer;
+}
+
+/* FOOTER */
+footer {
+    background: #123b75;
+    color: white;
+    text-align: center;
+    padding: 25px;
+    margin-top: 40px;
+}
+
+/* MOBILE */
+@media(max-width: 800px) {
+
+    nav {
+        flex-direction: column;
+        gap: 15px;
+    }
+
+    nav ul {
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+
+    .dashboard {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .form-grid,
+    .analysis {
+        grid-template-columns: 1fr;
+    }
+
+    .hero h1 {
+        font-size: 32px;
+    }
+}
+
+@media(max-width: 500px) {
+
+    .dashboard {
+        grid-template-columns: 1fr;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<!-- ================= NAVIGATION ================= -->
+
+<nav>
+
+    <div class="logo">
+        🎓 KEC Grievance Tracker
+    </div>
+
+    <ul>
+        <li><a href="#home">Home</a></li>
+        <li><a href="#dashboard">Dashboard</a></li>
+        <li><a href="#complaint">Complaint</a></li>
+        <li><a href="#track">Track</a></li>
+        <li><a href="#analysis">Analysis</a></li>
+        <li><a href="#login">Login</a></li>
+    </ul>
+
+</nav>
+
+
+<!-- ================= HOME ================= -->
+
+<section id="home" class="hero">
+
+    <div>
+
+        <h1>KEC Grievance Redressal Tracker</h1>
+
+        <p>
+            Submit complaints and track their resolution
+            with SLA-based deadline monitoring.
+        </p>
+
+        <button onclick="goComplaint()">
+            Submit Complaint
+        </button>
+
+    </div>
+
+</section>
+
+
+<!-- ================= DASHBOARD ================= -->
+
+<section id="dashboard">
+
+    <h2>📊 Dashboard</h2>
+
+    <div class="dashboard">
+
+        <div class="card">
+            <h3 id="total">0</h3>
+            <p>Total Complaints</p>
+        </div>
+
+        <div class="card">
+            <h3 id="pending">0</h3>
+            <p>Pending</p>
+        </div>
+
+        <div class="card">
+            <h3 id="resolved">0</h3>
+            <p>Resolved</p>
+        </div>
+
+        <div class="card">
+            <h3 id="overdue">0</h3>
+            <p>Overdue</p>
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- ================= SLA ALERT ================= -->
+
+<section>
+
+    <div id="alert" class="alert">
+
+        ⚠️ <b>SLA Alert:</b>
+
+        <span id="alertMessage">
+            No overdue complaints.
+        </span>
+
+    </div>
+
+</section>
+
+
+<!-- ================= COMPLAINT ================= -->
+
+<section id="complaint">
+
+    <h2>📝 Submit Complaint</h2>
+
+    <form id="complaintForm">
+
+        <div class="form-grid">
+
+            <div>
+
+                <label>Student Name</label>
+
+                <input
+                    id="student"
+                    type="text"
+                    placeholder="Enter student name"
+                    required>
+
+            </div>
+
+
+            <div>
+
+                <label>Email</label>
+
+                <input
+                    id="email"
+                    type="email"
+                    placeholder="Enter email"
+                    required>
+
+            </div>
+
+
+            <div>
+
+                <label>Department</label>
+
+                <select id="department">
+
+                    <option>CSE</option>
+                    <option>IT</option>
+                    <option>ECE</option>
+                    <option>EEE</option>
+                    <option>MECH</option>
+                    <option>CIVIL</option>
+
+                </select>
+
+            </div>
+
+
+            <div>
+
+                <label>Category</label>
+
+                <select id="category">
+
+                    <option>Academic</option>
+                    <option>Infrastructure</option>
+                    <option>Hostel</option>
+                    <option>Transport</option>
+                    <option>Lab</option>
+                    <option>IT Support</option>
+
+                </select>
+
+            </div>
+
+
+            <div>
+
+                <label>Faculty</label>
+
+                <select id="faculty">
+
+                    <option>Dr. Kumar</option>
+                    <option>Prof. Priya</option>
+                    <option>Dr. Ravi</option>
+                    <option>Prof. Anu</option>
+
+                </select>
+
+            </div>
+
+
+            <div>
+
+                <label>SLA Deadline</label>
+
+                <select id="sla">
+
+                    <option value="1">1 Minute - Demo</option>
+                    <option value="4">4 Hours</option>
+                    <option value="8">8 Hours</option>
+                    <option value="24">24 Hours</option>
+                    <option value="48">48 Hours</option>
+
+                </select>
+
+            </div>
+
+
+            <div class="full">
+
+                <label>Complaint Description</label>
+
+                <textarea
+                    id="description"
+                    placeholder="Describe your complaint..."
+                    required>
+                </textarea>
+
+            </div>
+
+        </div>
+
+        <button type="submit">
+            🚀 Submit Complaint
+        </button>
+
+    </form>
+
+</section>
+
+
+<!-- ================= TRACK ================= -->
+
+<section id="track">
+
+    <h2>🔎 Track Complaints</h2>
+
+    <input
+        type="text"
+        id="search"
+        placeholder="Search complaint..."
+        onkeyup="searchComplaint()">
+
+
+    <div class="table-container">
+
+        <table>
+
+            <thead>
+
+                <tr>
+
+                    <th>ID</th>
+                    <th>Student</th>
+                    <th>Category</th>
+                    <th>Faculty</th>
+                    <th>SLA</th>
+                    <th>Status</th>
+                    <th>Actions</th>
+
+                </tr>
+
+            </thead>
+
+            <tbody id="complaintTable"></tbody>
+
+        </table>
+
+    </div>
+
+</section>
+
+
+<!-- ================= ANALYSIS ================= -->
+
+<section id="analysis">
+
+    <h2>📈 Complaint Analysis</h2>
+
+    <div class="analysis">
+
+        <div class="analysis-box">
+
+            <h3>Academic</h3>
+
+            <div class="progress">
+
+                <div
+                    class="progress-bar"
+                    style="width:70%">
+                </div>
+
+            </div>
+
+            <p>70%</p>
+
+        </div>
+
+
+        <div class="analysis-box">
+
+            <h3>Infrastructure</h3>
+
+            <div class="progress">
+
+                <div
+                    class="progress-bar"
+                    style="width:50%">
+                </div>
+
+            </div>
+
+            <p>50%</p>
+
+        </div>
+
+
+        <div class="analysis-box">
+
+            <h3>Hostel</h3>
+
+            <div class="progress">
+
+                <div
+                    class="progress-bar"
+                    style="width:35%">
+                </div>
+
+            </div>
+
+            <p>35%</p>
+
+        </div>
+
+
+        <div class="analysis-box">
+
+            <h3>IT Support</h3>
+
+            <div class="progress">
+
+                <div
+                    class="progress-bar"
+                    style="width:60%">
+                </div>
+
+            </div>
+
+            <p>60%</p>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- ================= LOGIN ================= -->
+
+<section id="login">
+
+    <h2>🔐 Login</h2>
+
+    <div class="login-box">
+
+        <form id="loginForm">
+
+            <input
+                type="email"
+                placeholder="Email"
+                required>
+
+            <input
+                type="password"
+                placeholder="Password"
+                required>
+
+            <select required>
+
+                <option value="">
+                    Select Role
+                </option>
+
+                <option>Student</option>
+                <option>Faculty</option>
+                <option>Admin</option>
+
+            </select>
+
+            <button type="submit">
+                Login
+            </button>
+
+        </form>
+
+    </div>
+
+</section>
+
+
+<!-- ================= REPLY MODAL ================= -->
+
+<div id="replyModal" class="modal">
+
+    <div class="modal-content">
+
+        <span
+            class="close"
+            onclick="closeModal()">
+            ×
+        </span>
+
+        <h2>📧 Reply to Complaint</h2>
+
+        <textarea
+            id="replyText"
+            placeholder="Write your reply...">
+        </textarea>
+
+        <button onclick="sendReply()">
+            Send Reply
+        </button>
+
+    </div>
+
+</div>
+
+
+<!-- ================= FOOTER ================= -->
+
+<footer>
+
+    <h3>KEC Grievance Redressal Tracker</h3>
+
+    <p>
+        SLA Based Complaint Management System
+    </p>
+
+    <p>
+        © 2026 KEC
+    </p>
+
+</footer>
+
+
+<script>
+
+/* ================= DATA ================= */
+
+let complaints = [];
+
+let complaintID = 1001;
+
+
+/* ================= SUBMIT ================= */
+
+document
+.getElementById("complaintForm")
+.addEventListener("submit", function(e) {
+
+    e.preventDefault();
+
+
+    let student =
+        document.getElementById("student").value;
+
+    let email =
+        document.getElementById("email").value;
+
+    let category =
+        document.getElementById("category").value;
+
+    let faculty =
+        document.getElementById("faculty").value;
+
+    let sla =
+        Number(
+            document.getElementById("sla").value
+        );
+
+
+    /*
+       For demo:
+       SLA value is treated as minutes.
+       Change this to hours when connecting
+       to the real backend.
+    */
+
+    let deadline =
+        new Date(
+            Date.now() +
+            sla * 60 * 1000
+        );
+
+
+    let complaint = {
+
+        id: "KEC-" + complaintID++,
+
+        student: student,
+
+        email: email,
+
+        category: category,
+
+        faculty: faculty,
+
+        deadline: deadline,
+
+        status: "Pending"
+
+    };
+
+
+    complaints.push(complaint);
+
+
+    alert(
+        "Complaint submitted successfully!\n\n" +
+        "Complaint ID: " +
+        complaint.id
+    );
+
+
+    this.reset();
+
+    displayComplaints();
+
+    updateDashboard();
+
+    document
+    .getElementById("track")
+    .scrollIntoView({
+        behavior: "smooth"
+    });
+
+});
+
+
+/* ================= DISPLAY ================= */
+
+function displayComplaints() {
+
+    let table =
+        document.getElementById("complaintTable");
+
+
+    table.innerHTML = "";
+
+
+    complaints.forEach(function(c) {
+
+        let row =
+            document.createElement("tr");
+
+
+        let statusClass =
+            c.status.toLowerCase();
+
+
+        row.innerHTML = `
+
+            <td>${c.id}</td>
+
+            <td>${c.student}</td>
+
+            <td>${c.category}</td>
+
+            <td>${c.faculty}</td>
+
+            <td>
+                ${formatDate(c.deadline)}
+            </td>
+
+            <td>
+
+                <span
+                    class="status ${statusClass}">
+
+                    ${c.status}
+
+                </span>
+
+            </td>
+
+            <td>
+
+                <button
+                    onclick="resolveComplaint('${c.id}')">
+
+                    Resolve
+
+                </button>
+
+                <button
+                    onclick="openReply('${c.id}')">
+
+                    Reply
+
+                </button>
+
+            </td>
+
+        `;
+
+
+        table.appendChild(row);
+
+    });
+
+}
+
+
+/* ================= RESOLVE ================= */
+
+function resolveComplaint(id) {
+
+    let complaint =
+        complaints.find(
+            c => c.id === id
+        );
+
+
+    if (complaint) {
+
+        complaint.status =
+            "Resolved";
+
+
+        alert(
+            "Complaint " +
+            id +
+            " resolved successfully."
+        );
+
+
+        displayComplaints();
+
+        updateDashboard();
+
+    }
+
+}
+
+
+/* ================= DASHBOARD ================= */
+
+function updateDashboard() {
+
+    let total =
+        complaints.length;
+
+
+    let pending =
+        complaints.filter(
+            c => c.status === "Pending"
+        ).length;
+
+
+    let resolved =
+        complaints.filter(
+            c => c.status === "Resolved"
+        ).length;
+
+
+    let overdue =
+        complaints.filter(
+            c => c.status === "Overdue"
+        ).length;
+
+
+    document.getElementById("total")
+        .innerText = total;
+
+
+    document.getElementById("pending")
+        .innerText = pending;
+
+
+    document.getElementById("resolved")
+        .innerText = resolved;
+
+
+    document.getElementById("overdue")
+        .innerText = overdue;
+
+
+    let alertBox =
+        document.getElementById("alert");
+
+
+    let message =
+        document.getElementById("alertMessage");
+
+
+    if (overdue > 0) {
+
+        alertBox.classList.add("danger");
+
+        message.innerText =
+            overdue +
+            " complaint(s) have exceeded the SLA.";
+
+    } else {
+
+        alertBox.classList.remove("danger");
+
+        message.innerText =
+            "No overdue complaints.";
+
+    }
+
+}
+
+
+/* ================= SLA TIMER ================= */
+
+setInterval(function() {
+
+    complaints.forEach(function(c) {
+
+        if (
+            c.status === "Pending" &&
+            new Date() > c.deadline
+        ) {
+
+            c.status = "Overdue";
+
+        }
+
+    });
+
+
+    displayComplaints();
+
+    updateDashboard();
+
+}, 1000);
+
+
+/* ================= SEARCH ================= */
+
+function searchComplaint() {
+
+    let search =
+        document
+        .getElementById("search")
+        .value
+        .toLowerCase();
+
+
+    let rows =
+        document
+        .getElementById("complaintTable")
+        .getElementsByTagName("tr");
+
+
+    for (let row of rows) {
+
+        row.style.display =
+            row.innerText
+            .toLowerCase()
+            .includes(search)
+            ? ""
+            : "none";
+
+    }
+
+}
+
+
+/* ================= REPLY ================= */
+
+let selectedComplaint = null;
+
+
+function openReply(id) {
+
+    selectedComplaint = id;
+
+    document
+        .getElementById("replyModal")
+        .style.display = "flex";
+
+}
+
+
+function closeModal() {
+
+    document
+        .getElementById("replyModal")
+        .style.display = "none";
+
+}
+
+
+function sendReply() {
+
+    let reply =
+        document
+        .getElementById("replyText")
+        .value;
+
+
+    if (!reply.trim()) {
+
+        alert("Please enter a reply.");
+
+        return;
+
+    }
+
+
+    alert(
+        "Reply sent successfully!\n\n" +
+        "Complaint: " +
+        selectedComplaint
+    );
+
+
+    document
+        .getElementById("replyText")
+        .value = "";
+
+
+    closeModal();
+
+}
+
+
+/* ================= LOGIN ================= */
+
+document
+.getElementById("loginForm")
+.addEventListener("submit", function(e) {
+
+    e.preventDefault();
+
+    alert("Login successful!");
+
+    document
+        .getElementById("dashboard")
+        .scrollIntoView({
+            behavior: "smooth"
+        });
+
+});
+
+
+/* ================= HOME BUTTON ================= */
+
+function goComplaint() {
+
+    document
+        .getElementById("complaint")
+        .scrollIntoView({
+            behavior: "smooth"
+        });
+
+}
+
+
+/* ================= DATE ================= */
+
+function formatDate(date) {
+
+    return new Date(date)
+        .toLocaleString();
+
+}
+
+</script>
+
+</body>
+</html>
